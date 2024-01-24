@@ -18,19 +18,19 @@
             <p>Masukan username dan password anda</p>
             <hr/>
 
-            {{ if .error }}
+            {{ if .errors }}
                 <div class="alert alert-danger">
-                    {{ .error }}
+                    {{ .errors  }}
                 </div>
             {{ end }}
 
             <div class="form-grup">
                 <label>Username</label>
-                <input type="text" name="username" class="form-control"/>
+                <input type="text" name="username" class="form-control" autocomplete="off"/>
             </div>
             <div class="form-grup">
                 <label>Password</label>
-                <input type="password" name="password" class="form-control"/>
+                <input type="password" name="password" class="form-control" autocomplete="off"/>
             </div>
             <button type="submit" class="btn btn-success btn-block">Sign In</button>
             <hr/>

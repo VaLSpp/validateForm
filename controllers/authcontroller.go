@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/ValSpp/go-auth/config"
 	"github.com/ValSpp/go-auth/entities"
 	"github.com/ValSpp/go-auth/models"
 	"golang.org/x/crypto/bcrypt"
@@ -18,8 +19,22 @@ type UserInput struct {
 var userModel = models.NewUserModel()
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	temp, _ := template.ParseFiles("views/index.html")
-	temp.Execute(w, nil)
+
+	session, _ := config.Store.Get(r, config.SESSION_ID)
+
+	if len(session.Values) == 0 {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+	} else {
+
+		if session.Values["loggedIn"] != true {
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
+		} else {
+			temp, _ := template.ParseFiles("views/index.html")
+			temp.Execute(w, nil)
+		}
+
+	}
+
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -57,6 +72,18 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 			temp, _ := template.ParseFiles("views/login.html")
 			temp.Execute(w, data)
+		} else {
+			// set session
+			session, _ := config.Store.Get(r, config.SESSION_ID)
+
+			session.Values["loggedIn"] = true
+			session.Values["Email"] = user.Email
+			session.Values["Username"] = user.Username
+			session.Values["nama_lengkap"] = user.NamaLengkap
+
+			session.Save(r, w)
+
+			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 
 	}
