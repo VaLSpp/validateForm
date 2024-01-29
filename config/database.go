@@ -7,6 +7,7 @@ import (
 )
 
 func DBConn() (db *sql.DB, err error) {
+
 	dbDriver := "mysql"
 	dbUser := "root"
 	dbPass := ""

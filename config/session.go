@@ -4,5 +4,4 @@ import "github.com/gorilla/sessions"
 
 const SESSION_ID = "go_auth_sess"
 
-var Store = sessions.NewCookieStore([]byte("nopal1234"))
-
+var Store = sessions.NewCookieStore([]byte("ajksgk0934712qwfqqr"))
